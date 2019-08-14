@@ -1,4 +1,4 @@
-let s:conflict_syntax_open      = "^<<<<<<< \@="
+let s:conflict_syntax_open      = '^<<<<<<< \@='
 let s:conflict_syntax_separator = '^=======$'
 let s:conflict_syntax_close     = '^>>>>>>> \@='
 
@@ -35,7 +35,7 @@ function! conflict_resolve#conflict#find_conflict_block_close() abort
   let end = searchpos(s:conflict_syntax_close, 'cnW')
   let forward_begin = searchpos(s:conflict_syntax_open, 'nW')
 
-  if end == [0, 0] || (forward_begin != [0, 0] && forward_begin[0] < begin[0])
+  if end == [0, 0] || (forward_begin != [0, 0] && forward_begin[0] < end[0])
     " 1. There's no syntax_close after cursor
     " 2. Both syntax_close and syntax_open exist. And syntax_open is before
     " syntax_close. That means cursor is not inside a block of

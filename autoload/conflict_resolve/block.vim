@@ -30,10 +30,12 @@ function! s:delete_lines(pos_from, pos_to) abort
   endif
 
   if l:from == l:to
-    execute l:from . 'delete'
+    let l:cmd = l:from . 'delete'
   else
-    execute l:from . ',' . l:to . 'delete'
+    let l:cmd = l:from . ',' . l:to . 'delete'
   endif
+
+  execute l:cmd
 endfunction
 
 " check if block is a valid conflict-block
@@ -55,11 +57,8 @@ function! s:conflict_block_base.choose_ourselves() abort
     return
   endif
 
-  call s:delete_lines(self.begin, self.begin)
   call s:delete_lines(self.sep, self.end)
-
-  " vim-repeat integrate
-  silent! call repeat#set("\<Plug>(conflict-resolve-ourselves)", v:count)
+  call s:delete_lines(self.begin, self.begin)
 endfunction
 
 function! s:conflict_block_base.choose_both() abort
@@ -67,11 +66,8 @@ function! s:conflict_block_base.choose_both() abort
     return
   endif
 
-  call s:delete_lines(self.begin, self.begin)
-  call s:delete_lines(self.sep, self.sep)
   call s:delete_lines(self.end, self.end)
-
-  " vim-repeat integrate
-  silent! call repeat#set("\<Plug>(conflict-resolve-both)", v:count)
+  call s:delete_lines(self.sep, self.sep)
+  call s:delete_lines(self.begin, self.begin)
 endfunction
 
